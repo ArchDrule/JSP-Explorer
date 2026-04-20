@@ -5,6 +5,13 @@
          http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
     <display-name>FileExplorer</display-name>
+
+    <context-param>
+        <param-name>org.apache.catalina.session.StandardSession.ACTIVITY_CHECK</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
+
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>

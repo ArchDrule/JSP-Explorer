@@ -11,18 +11,16 @@
     String parentPath = (String) request.getAttribute("parentPath");
     Date serverTime = (Date) request.getAttribute("serverTime");
     String error = (String) request.getAttribute("error");
+    String userLogin = (String) request.getAttribute("userLogin");
 
     if (files != null && files.length > 0) {
-        Arrays.sort(files, new Comparator<File>() {
-            @Override
-            public int compare(File f1, File f2) {
-                if (f1.isDirectory() && !f2.isDirectory()) {
-                    return -1; // f1 папка, f2 файл -> f1 выше
-                } else if (!f1.isDirectory() && f2.isDirectory()) {
-                    return 1;  // f1 файл, f2 папка -> f2 выше
-                } else {
-                    return f1.getName().compareToIgnoreCase(f2.getName());
-                }
+        Arrays.sort(files, (f1, f2) -> {
+            if (f1.isDirectory() && !f2.isDirectory()) {
+                return -1;
+            } else if (!f1.isDirectory() && f2.isDirectory()) {
+                return 1;
+            } else {
+                return f1.getName().compareToIgnoreCase(f2.getName());
             }
         });
     }
@@ -33,6 +31,10 @@
     <meta charset="UTF-8">
 </head>
 <body>
+
+<div style="float: right;">
+    <strong><%= userLogin %></strong> | <a href="logout">Выйти</a>
+</div>
 
 <h2>Файловый менеджер</h2>
 
