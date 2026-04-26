@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URLDecoder;
@@ -17,6 +16,7 @@ import java.util.Date;
 
 @WebServlet("/explorer")
 public class FileExplorerServlet extends HttpServlet {
+
     private static final String BASE_USERS_DIR = System.getProperty("user.home") + File.separator + "filemanager";
 
     @Override
@@ -28,7 +28,9 @@ public class FileExplorerServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        // Tomcat САМ восстановит сессию, если она есть на диске
         HttpSession session = req.getSession(false);
         UserProfile user = (session != null) ? (UserProfile) session.getAttribute("user") : null;
 
@@ -52,7 +54,7 @@ public class FileExplorerServlet extends HttpServlet {
 
         File currentDir = new File(currentPath);
 
-        // Проверка, что путь внутри домашней папки пользователя
+        // Проверка безопасности
         try {
             String canonicalUserHome = userHomeDir.getCanonicalPath();
             String canonicalCurrent = currentDir.getCanonicalPath();

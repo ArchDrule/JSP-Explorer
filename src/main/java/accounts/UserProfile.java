@@ -5,9 +5,12 @@ import java.io.Serializable;
 public class UserProfile implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private final String login;
-    private final String pass;
-    private final String email;
+    private String login;
+    private String pass;
+    private String email;
+
+    public UserProfile() {
+    }
 
     public UserProfile(String login, String pass, String email) {
         this.login = login;
@@ -15,15 +18,16 @@ public class UserProfile implements Serializable {
         this.email = email;
     }
 
-    public String getLogin() {
-        return login;
-    }
+    public String getLogin() { return login; }
+    public String getPass() { return pass; }
+    public String getEmail() { return email; }
 
-    public String getPass() {
-        return pass;
-    }
+    public void setLogin(String login) { this.login = login; }
+    public void setPass(String pass) { this.pass = pass; }
+    public void setEmail(String email) { this.email = email; }
 
-    public String getEmail() {
-        return email;
+    @Override
+    public String toString() {
+        return "UserProfile{login='" + login + "', email='" + email + "'}";
     }
 }

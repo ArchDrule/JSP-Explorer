@@ -24,12 +24,19 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        // Если уже залогинен - редирект на explorer
+
+        // Tomcat сам восстановит сессию из cookie, если она есть на диске
         HttpSession session = req.getSession(false);
         if (session != null && session.getAttribute("user") != null) {
             resp.sendRedirect("explorer");
             return;
         }
+
+        String message = req.getParameter("message");
+        if (message != null && !message.isEmpty()) {
+            req.setAttribute("message", message);
+        }
+
         req.getRequestDispatcher("/WEB-INF/login.jsp").forward(req, resp);
     }
 
@@ -48,6 +55,7 @@ public class LoginServlet extends HttpServlet {
         if (accountService.checkCredentials(login, pass)) {
             HttpSession session = req.getSession();
             session.setAttribute("user", accountService.getUserByLogin(login));
+            // Tomcat САМ сохранит сессию на диск (благодаря PersistentManager)
             resp.sendRedirect("explorer");
         } else {
             req.setAttribute("error", "Неверный логин или пароль");

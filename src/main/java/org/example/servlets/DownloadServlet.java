@@ -64,7 +64,6 @@ public class DownloadServlet extends HttpServlet {
 
         resp.setContentType("application/octet-stream");
 
-        // Правильная установка Content-Disposition с поддержкой кириллицы
         String fileName = file.getName();
         String encodedFileName = URLEncoder.encode(fileName, StandardCharsets.UTF_8.toString())
                 .replaceAll("\\+", "%20");

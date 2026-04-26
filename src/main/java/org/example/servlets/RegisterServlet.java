@@ -2,12 +2,14 @@ package org.example.servlets;
 
 import accounts.AccountService;
 import accounts.UserProfile;
+import org.example.utils.SessionSerializer;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet("/register")
@@ -47,7 +49,10 @@ public class RegisterServlet extends HttpServlet {
         }
 
         accountService.addNewUser(new UserProfile(login, pass, email));
-        req.setAttribute("message", "Регистрация успешна! Теперь вы можете войти.");
-        req.getRequestDispatcher("/WEB-INF/login.jsp").forward(req, resp);
+
+        HttpSession session = req.getSession();
+        session.setAttribute("user", accountService.getUserByLogin(login));
+
+        resp.sendRedirect("explorer");
     }
 }
