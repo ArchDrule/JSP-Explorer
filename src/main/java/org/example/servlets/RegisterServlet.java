@@ -2,7 +2,6 @@ package org.example.servlets;
 
 import accounts.AccountService;
 import accounts.UserProfile;
-import org.example.utils.SessionSerializer;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
