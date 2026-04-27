@@ -25,7 +25,6 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        // Tomcat сам восстановит сессию из cookie, если она есть на диске
         HttpSession session = req.getSession(false);
         if (session != null && session.getAttribute("user") != null) {
             resp.sendRedirect("explorer");
@@ -53,9 +52,12 @@ public class LoginServlet extends HttpServlet {
         }
 
         if (accountService.checkCredentials(login, pass)) {
-            HttpSession session = req.getSession();
-            session.setAttribute("user", accountService.getUserByLogin(login));
-            // Tomcat САМ сохранит сессию на диск (благодаря PersistentManager)
+            HttpSession session = req.getSession(true);
+            UserProfile userProfile = accountService.getUserByLogin(login);
+            session.setAttribute("user", userProfile);
+
+            session.setMaxInactiveInterval(30 * 24 * 60 * 60);
+
             resp.sendRedirect("explorer");
         } else {
             req.setAttribute("error", "Неверный логин или пароль");

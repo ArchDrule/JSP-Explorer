@@ -1,25 +1,44 @@
 package accounts;
 
-import java.util.HashMap;
-import java.util.Map;
+import dbService.DBException;
+import dbService.DBService;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AccountService {
-    private final Map<String, UserProfile> loginToProfile;
+    private static final Logger LOGGER = Logger.getLogger(AccountService.class.getName());
+    private final DBService dbService;
 
-    public AccountService() {
-        loginToProfile = new HashMap<>();
+    public AccountService(DBService dbService) {
+        this.dbService = dbService;
     }
 
     public void addNewUser(UserProfile userProfile) {
-        loginToProfile.put(userProfile.getLogin(), userProfile);
+        try {
+            dbService.addUser(userProfile);
+        } catch (DBException e) {
+            LOGGER.log(Level.SEVERE, "Ошибка при добавлении пользователя: " + userProfile.getLogin(), e);
+            throw new RuntimeException("Не удалось создать пользователя", e);
+        }
     }
 
     public UserProfile getUserByLogin(String login) {
-        return loginToProfile.get(login);
+        try {
+            return dbService.getUserByLogin(login);
+        } catch (DBException e) {
+            LOGGER.log(Level.SEVERE, "Ошибка при получении пользователя: " + login, e);
+            return null;
+        }
     }
 
     public boolean checkCredentials(String login, String pass) {
-        UserProfile profile = getUserByLogin(login);
-        return profile != null && profile.getPass().equals(pass);
+        try {
+            UserProfile profile = dbService.getUserByLogin(login);
+            return profile != null && profile.getPass().equals(pass);
+        } catch (DBException e) {
+            LOGGER.log(Level.SEVERE, "Ошибка при проверке учетных данных для: " + login, e);
+            return false;
+        }
     }
 }

@@ -11,6 +11,13 @@
         <param-value>true</param-value>
     </context-param>
 
+    <session-config>
+        <session-timeout>30</session-timeout> <!-- 30 минут -->
+        <cookie-config>
+            <max-age>2592000</max-age> <!-- 30 дней -->
+            <http-only>true</http-only>
+        </cookie-config>
+    </session-config>
 
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>

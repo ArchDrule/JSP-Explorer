@@ -30,7 +30,6 @@ public class FileExplorerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        // Tomcat САМ восстановит сессию, если она есть на диске
         HttpSession session = req.getSession(false);
         UserProfile user = (session != null) ? (UserProfile) session.getAttribute("user") : null;
 

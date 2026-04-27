@@ -2,9 +2,13 @@
 <Context>
     <Manager className="org.apache.catalina.session.PersistentManager"
              saveOnRestart="true"
-             maxActiveSessions="100">
+             maxActiveSessions="100"
+             processExpiresFrequency="1"
+             maxIdleBackup="0"
+             maxIdleSwap="0"
+             minIdleSwap="0">
         <Store className="org.apache.catalina.session.FileStore"
                directory="${catalina.base}/temp/sessions"/>
-        <SessionCookie maxAge="2592000" />
+        <SessionCookie maxAge="2592000"/>
     </Manager>
 </Context>

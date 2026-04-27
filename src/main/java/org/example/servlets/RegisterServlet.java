@@ -47,10 +47,11 @@ public class RegisterServlet extends HttpServlet {
             return;
         }
 
-        accountService.addNewUser(new UserProfile(login, pass, email));
+        UserProfile newUser = new UserProfile(login, pass, email);
+        accountService.addNewUser(newUser);
 
         HttpSession session = req.getSession();
-        session.setAttribute("user", accountService.getUserByLogin(login));
+        session.setAttribute("user", newUser);
 
         resp.sendRedirect("explorer");
     }
