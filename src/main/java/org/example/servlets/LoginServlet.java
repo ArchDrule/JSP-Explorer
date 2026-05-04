@@ -55,7 +55,6 @@ public class LoginServlet extends HttpServlet {
         if (accountService.checkCredentials(login, pass)) {
             HttpSession session = req.getSession();
             session.setAttribute("user", accountService.getUserByLogin(login));
-            // Tomcat САМ сохранит сессию на диск (благодаря PersistentManager)
             resp.sendRedirect("explorer");
         } else {
             req.setAttribute("error", "Неверный логин или пароль");
