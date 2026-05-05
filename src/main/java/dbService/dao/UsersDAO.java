@@ -1,7 +1,6 @@
 package dbService.dao;
 
 import accounts.UserProfile;
-import dbService.dataSets.UsersDataSet;
 import dbService.executor.Executor;
 
 import java.sql.Connection;
@@ -43,23 +42,6 @@ public class UsersDAO {
                 result -> {
                     if (result.next()) {
                         return new UserProfile(
-                                result.getString("login"),
-                                result.getString("pass"),
-                                result.getString("email")
-                        );
-                    }
-                    return null;
-                }
-        );
-    }
-
-    public UsersDataSet getUserById(long id) throws SQLException {
-        return executor.execQuery(
-                "SELECT * FROM users WHERE id=" + id,
-                result -> {
-                    if (result.next()) {
-                        return new UsersDataSet(
-                                result.getLong("id"),
                                 result.getString("login"),
                                 result.getString("pass"),
                                 result.getString("email")
